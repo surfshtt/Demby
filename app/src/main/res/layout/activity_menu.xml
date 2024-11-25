@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/blue_bg"
-    tools:context=".MainActivity">
+    tools:context=".MenuActivity">
 
 
     <RelativeLayout
@@ -29,103 +29,11 @@
             android:text="@string/second_hello_string"
             android:textColor="@color/white"
             android:textSize="30sp" />
-
     </RelativeLayout>
 
-    <RelativeLayout
-        android:id="@+id/data_field"
-        android:layout_below="@id/upper_bg"
-        android:layout_width="match_parent"
-        android:layout_height="260dp"
-        android:layout_marginTop="125dp"
-        android:layout_marginHorizontal="35dp"
-        android:background="@drawable/rounded_corners_all"
-        tools:ignore="UselessParent">
 
-        <EditText
-            android:id="@+id/user_name_field"
-            android:layout_width="match_parent"
-            android:layout_height="65dp"
-            android:layout_marginHorizontal="25dp"
-            android:layout_marginTop="17dp"
 
-            android:ems="10"
 
-            android:fontFamily="@font/montserrat_medium"
-            android:hint="@string/user_name_hint"
-            android:inputType="text"
-            android:textColor="@color/white"
-            android:textColorHint="@color/blue_bg"
-            android:textSize="24sp" />
-
-        <EditText
-            android:id="@+id/password_field"
-            android:layout_width="match_parent"
-            android:layout_below="@id/user_name_field"
-            android:layout_height="65dp"
-            android:layout_marginHorizontal="25dp"
-            android:layout_marginTop="17dp"
-
-            android:ems="10"
-
-            android:fontFamily="@font/montserrat_medium"
-            android:hint="@string/password_hint"
-            android:inputType="textPassword"
-            android:textColor="@color/white"
-            android:textColorHint="@color/blue_bg"
-            android:textSize="24sp" />
-
-        <LinearLayout android:layout_below="@id/password_field"
-            android:layout_height="match_parent"
-            android:layout_width="match_parent"
-            >
-
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="27dp"
-                android:layout_marginTop="23dp"
-                android:backgroundTint="@color/blue3"
-                android:text="@string/login_button"
-                android:textSize="20sp"
-                android:fontFamily="@font/montserrat_bold"
-                app:cornerRadius="15dp" />
-
-            <RelativeLayout
-                android:id="@+id/need_reg_field"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-                <TextView
-                    android:id="@+id/is_account_exist_text"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="25dp"
-                    android:layout_marginTop="22dp"
-                    android:layout_marginBottom="-2dp"
-                    android:text="@string/is_need_reg_button"
-                    android:fontFamily="@font/montserrat_medium"
-                    android:textColor="@color/blue_bg"
-                    android:textSize="18sp"
-                    />
-
-                <TextView
-                    android:id="@+id/go_reg_button"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/is_account_exist_text"
-                    android:layout_marginHorizontal="25dp"
-                    android:layout_marginTop="-4dp"
-                    android:text="@string/go_reg_button"
-                    android:fontFamily="@font/montserrat_extrabold"
-                    android:textColor="@color/white"
-                    android:textSize="18sp"
-                    />
-            </RelativeLayout>
-
-        </LinearLayout>
-
-    </RelativeLayout>
 
     <RelativeLayout
         android:id="@+id/bottom_square"
