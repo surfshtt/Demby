@@ -4,8 +4,12 @@
     <string name="second_hello_string">Добро пожаловать в Demby!</string>
     <string name="user_name_hint">Юзернейм</string>
     <string name="password_hint">Пароль</string>
+    <string name="confirm_password_hint">Подтвердите пароль</string>
     <string name="login_button">Войти</string>
     <string name="is_need_reg_button">Нету аккаунта?</string>
-    <string name="reg_button">регистрация</string>
+    <string name="isnt_need_reg_button">Уже есть аккаунт?</string>
+    <string name="go_reg_button">регистрация</string>
+    <string name="go_log_button">войдите</string>
+    <string name="create_account_button">Создать аккаунт</string>
 
 </resources>
