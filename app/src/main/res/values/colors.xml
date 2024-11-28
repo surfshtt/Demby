@@ -8,5 +8,5 @@
     <color name="blue5">#FFFFFFFF</color>
     <color name="text_colour">#242424</color>
     <color name="white">#FFFFFF</color>
-    <color name="orange">#fc3550</color>
+    <color name="warn_red">#FF4F68</color>
 </resources>

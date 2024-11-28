@@ -4,6 +4,7 @@
     <string name="second_hello_string">Добро пожаловать в Demby!</string>
     <string name="user_name_hint">Юзернейм</string>
     <string name="password_hint">Пароль</string>
+    <string name="email_hint">Почта</string>
     <string name="confirm_password_hint">Подтвердите пароль</string>
     <string name="login_button">Войти</string>
     <string name="is_need_reg_button">Нету аккаунта?</string>
