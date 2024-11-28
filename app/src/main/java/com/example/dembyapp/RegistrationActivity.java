@@ -99,9 +99,23 @@ public class RegistrationActivity extends AppCompatActivity {
             email_field.setTextColor(getResources().getColor(R.color.white));
         }
 
+        //Пароли
+
         //Проверка на равенство введеных паролей
         if(!first_password_field.getText().toString().equals(second_password_field.getText().toString())){
             showWarn("Пароли не совпадают!");
+            first_password_field.setTextColor(getResources().getColor(R.color.warn_red));
+            second_password_field.setTextColor(getResources().getColor(R.color.warn_red));
+            return;
+        }else{
+            first_password_field.setTextColor(getResources().getColor(R.color.white));
+            second_password_field.setTextColor(getResources().getColor(R.color.white));
+        }
+
+        //Валидация пароля
+        if(first_password_field.getText().toString().isEmpty() || first_password_field.getText().toString().contains(" ") ||
+            first_password_field.getText().toString().length() < 8){
+            showWarn("Некорректный пароль!");
             first_password_field.setTextColor(getResources().getColor(R.color.warn_red));
             second_password_field.setTextColor(getResources().getColor(R.color.warn_red));
             return;
