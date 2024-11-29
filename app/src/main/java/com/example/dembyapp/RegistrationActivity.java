@@ -55,7 +55,6 @@ public class RegistrationActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-
     public void RegButton_Click(View v){
 
     //Различные проверки корректности ввода
@@ -124,11 +123,15 @@ public class RegistrationActivity extends AppCompatActivity {
             second_password_field.setTextColor(getResources().getColor(R.color.white));
         }
 
-        showWarn("Все гуд!");
+        //TODO создание аккаунта в БД
+
+        showWarn("Аккаунт создан!");
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
     }
 
     public static boolean isUsernameExists(String username) {
-        //TODO
+        //TODO поиск юзернейма в БД
         return false;
     }
 
