@@ -3,6 +3,7 @@ package com.example.dembyapp;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -17,6 +18,9 @@ import androidx.core.view.WindowInsetsCompat;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import Data.DatabaseHandler;
+import Model.User;
+
 public class RegistrationActivity extends AppCompatActivity {
 
     private EditText user_name_field;
@@ -24,6 +28,7 @@ public class RegistrationActivity extends AppCompatActivity {
     private EditText first_password_field;
     private EditText second_password_field;
 
+    private DatabaseHandler databaseHandler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +53,8 @@ public class RegistrationActivity extends AppCompatActivity {
         email_field = findViewById(R.id.email_field);
         first_password_field = findViewById(R.id.first_password_field);
         second_password_field = findViewById(R.id.second_password_field);
+
+        databaseHandler = new DatabaseHandler(this);
     }
 
     public void goToLogActivity(View v){
@@ -60,6 +67,7 @@ public class RegistrationActivity extends AppCompatActivity {
     //Различные проверки корректности ввода
 
         //Проверка корректности юзернейма
+
         if(user_name_field.getText().toString().contains(" ") || user_name_field.getText().toString().isEmpty()){
             showWarn("Некорректный юзернейм!");
             user_name_field.setTextColor(getResources().getColor(R.color.warn_red));
@@ -123,16 +131,18 @@ public class RegistrationActivity extends AppCompatActivity {
             second_password_field.setTextColor(getResources().getColor(R.color.white));
         }
 
-        //TODO создание аккаунта в БД
+        User newAccount = new User(user_name_field.getText().toString(), email_field.getText().toString(), first_password_field.getText().toString());
+        databaseHandler.newUser(newAccount);
 
+        Log.d("DB", "Аккаунт " + user_name_field + " создан");
         showWarn("Аккаунт создан!");
+
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
     }
 
-    public static boolean isUsernameExists(String username) {
-        //TODO поиск юзернейма в БД
-        return false;
+    public boolean isUsernameExists(String username) {
+        return databaseHandler.getUser(username) != null;
     }
 
     public static boolean isValidEmail(String email) {
@@ -141,7 +151,6 @@ public class RegistrationActivity extends AppCompatActivity {
         Matcher matcher = pattern.matcher(email);
         return matcher.matches();
     }
-
 
     public void showWarn(String text){
         Toast.makeText(this,text,Toast.LENGTH_SHORT).show();

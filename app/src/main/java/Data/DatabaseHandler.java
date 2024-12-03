@@ -1,10 +1,13 @@
 package Data;
 
+import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
+import Model.User;
 import Utils.ProfilesUtil;
 import Utils.UsersUtil;
 import Utils.Util;
@@ -47,5 +50,37 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + ProfilesUtil.TABLE_NAME);
 
         onCreate(db);
+        Log.d("DB", "БД " + Util.DATABASE_NAME +" обновлена");
     }
+
+    //Работа с аккаунатами
+    public void newUser(User user){
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(UsersUtil.KEY_USERNAME, user.getUsername());
+        contentValues.put(UsersUtil.KEY_EMAIL, user.getEmail());
+        contentValues.put(UsersUtil.KEY_PASSWORD, user.getPassword());
+
+        db.insert(UsersUtil.TABLE_NAME, null, contentValues);
+        db.close();
+    }
+
+    public User getUser(String userName){
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.query(UsersUtil.TABLE_NAME,new String[] {UsersUtil.KEY_ID, UsersUtil.KEY_USERNAME, UsersUtil.KEY_EMAIL,UsersUtil.KEY_PASSWORD},
+                UsersUtil.KEY_USERNAME + "=?", new String[]{userName}, null,null,null,null);
+
+        if(cursor != null){
+            cursor.moveToFirst();
+
+            return new User(Integer.parseInt(cursor.getString(0)),
+                    cursor.getString(1),
+                    cursor.getString(2),
+                    cursor.getString(3));
+        }
+
+        return null;
+    }
+
+
 }
