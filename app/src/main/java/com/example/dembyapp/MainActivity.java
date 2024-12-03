@@ -77,12 +77,12 @@ public class MainActivity extends AppCompatActivity {
         if(userName.isEmpty() || userName.contains(" ") || userName.contains("SELECT") || userName.contains("WHERE"))
             return false;
 
+        if(databaseHandler.getUser(userName) == null)
+            return false;
+
         User userData = databaseHandler.getUser(userName);
 
         if(password.isEmpty() || password.contains(" ") || password.length() < 8)
-            return false;
-
-        if(userData == null)
             return false;
 
         return userData.getPassword().equals(password);

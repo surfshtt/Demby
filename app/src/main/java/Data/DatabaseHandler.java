@@ -71,12 +71,16 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                 UsersUtil.KEY_USERNAME + "=?", new String[]{userName}, null,null,null,null);
 
         if(cursor != null){
-            cursor.moveToFirst();
+            try {
+                cursor.moveToFirst();
 
-            return new User(Integer.parseInt(cursor.getString(0)),
-                    cursor.getString(1),
-                    cursor.getString(2),
-                    cursor.getString(3));
+                return new User(Integer.parseInt(cursor.getString(0)),
+                        cursor.getString(1),
+                        cursor.getString(2),
+                        cursor.getString(3));
+            } catch (Exception e) {
+                return null;
+            }
         }
 
         return null;

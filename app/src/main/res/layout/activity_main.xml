@@ -89,7 +89,9 @@
                     android:text="@string/login_button"
                     android:textSize="20sp"
                     android:fontFamily="@font/montserrat_bold"
-                    app:cornerRadius="15dp" />
+                    app:cornerRadius="15dp"
+
+                    android:onClick="LogButton_Click"/>
 
                 <RelativeLayout
                     android:id="@+id/need_reg_field"
