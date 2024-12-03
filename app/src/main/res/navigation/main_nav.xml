@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_nav"
+    app:startDestination="@id/watchingProfilesFragment">
+
+    <fragment
+        android:id="@+id/watchingProfilesFragment"
+        android:name="com.example.dembyapp.ProfileFragment"
+        android:label="fragment_watching_profile"
+        tools:layout="@layout/fragment_profile" />
+    <fragment
+        android:id="@+id/profileFragment"
+        android:name="com.example.dembyapp.WatchProfilesFragment"
+        android:label="fragment_profiles"
+        tools:layout="@layout/fragment_watch_profiles" />
+    <fragment
+        android:id="@+id/mutualLikeFragment"
+        android:name="com.example.dembyapp.MutualLikeFragment"
+        android:label="fragment_mutual_like"
+        tools:layout="@layout/fragment_mutual_like" />
+</navigation>
