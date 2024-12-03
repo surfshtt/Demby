@@ -9,55 +9,38 @@
     tools:context=".MenuActivity">
 
 
-    <RelativeLayout
-        android:id="@+id/upper_bg"
-        android:layout_width="match_parent"
-        android:layout_height="105dp"
-        android:layout_marginTop="35dp"
-        android:layout_marginHorizontal="17dp"
 
-
-        android:background="@drawable/rounded_corners_all"
-        tools:ignore="UselessParent">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="14dp"
-            android:fontFamily="@font/montserrat_extrabold"
-            android:gravity="center"
-            android:text="@string/second_hello_string"
-            android:textColor="@color/white"
-            android:textSize="30sp" />
-    </RelativeLayout>
 
 
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/menu_field"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@id/bottom_square"
+        android:layout_alignParentBottom="true"
         android:layout_marginHorizontal="15dp"
-        android:layout_marginVertical="15dp"
+        android:layout_marginBottom="-50dp"
         android:background="@drawable/rounded_corners_all"
 
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:menu="@menu/bottom_menu"
         app:itemIconTint="@color/white"
         app:itemTextColor="@color/white"
-        app:itemIconSize="30dp"
-        app:labelVisibilityMode="labeled"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"/>
+        app:itemIconSize="30dp"/>
 
-    <RelativeLayout
-        android:id="@+id/bottom_square"
-        android:layout_alignParentBottom="true"
+    <fragment
+        android:id="@+id/fragment"
+        android:name="androidx.navigation.fragment.NavHostFragment"
         android:layout_width="match_parent"
-        android:layout_height="6dp"
-        android:background="@drawable/rounded_corners_up_white">
-
-    </RelativeLayout>
+        android:layout_height="match_parent"
+        app:defaultNavHost="true"
+        app:layout_constraintBottom_toTopOf="@+id/menu_field"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:navGraph="@navigation/main_nav" />
 
 
 
