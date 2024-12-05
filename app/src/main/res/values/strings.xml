@@ -12,7 +12,10 @@
     <string name="go_reg_button">регистрация</string>
     <string name="go_log_button">войдите</string>
     <string name="create_account_button">Создать аккаунт</string>
+    <string name="here_ur_prof">Вот твоя анкета:</string>
+
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
 
 </resources>

@@ -1,14 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ProfileFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/email_hint" />
+    <RelativeLayout android:id="@+id/hi_text_field"
+    android:layout_width="match_parent"
+    android:layout_height="95dp"
+    android:background="@drawable/rounded_corners_all"
+    android:layout_marginHorizontal="30dp"
+    android:layout_marginVertical="30dp">
+        <TextView
+            android:id="@+id/hi_text"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="3dp"
+            android:text="Привет Влад!"
+            android:textColor="@color/white"
+            android:fontFamily="@font/montserrat_extrabold"
+            android:textSize="32sp"
+            android:gravity="center_horizontal"
+            />
 
-</FrameLayout>
+        <TextView
+            android:id="@+id/here_is_your_profile_text"
+            android:layout_below="@id/hi_text"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginTop="-3dp"
+            android:text="@string/here_ur_prof"
+            android:textColor="@color/white"
+            android:fontFamily="@font/montserrat_bold"
+            android:textSize="20sp"
+            android:gravity="center"
+            />
+
+    </RelativeLayout>
+
+    <FrameLayout
+        android:id="@+id/profile_types_layout"
+        android:layout_width="match_parent"
+        android:layout_height="500dp"
+        android:layout_below="@+id/hi_text_field">
+
+    </FrameLayout>
+
+
+</RelativeLayout>

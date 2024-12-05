@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <item android:title="Взаминые лайки"
+    <item android:title="Взаимные лайки"
         android:id="@+id/mutualLikeFragment"
         android:icon="@drawable/ic_mutual_like"
         android:fontFamily="@font/montserrat_medium"
@@ -9,7 +9,7 @@
 
 
     <item android:title="Просмотр анкет"
-        android:id="@+id/watchingProfilesFragment"
+        android:id="@+id/watchProfilesFragment"
         android:icon="@drawable/ic_heart"
         android:fontFamily="@font/montserrat_medium"
         android:textSize="20sp"/>

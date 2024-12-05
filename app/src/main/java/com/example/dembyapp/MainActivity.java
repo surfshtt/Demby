@@ -14,6 +14,9 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import java.io.FileOutputStream;
+import java.io.IOException;
+
 import Data.DatabaseHandler;
 import Model.User;
 
@@ -55,7 +58,7 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    public void LogButton_Click(View v) {
+    public void LogButton_Click(View v) throws IOException {
         String userName = user_name_field.getText().toString();
         String password = password_field.getText().toString();
 
@@ -63,7 +66,11 @@ public class MainActivity extends AppCompatActivity {
             showWarn("Вход Успешен!");
             Log.i("Login", "Correct data. Username: " + userName + " Password: " + password);
 
+            saveData(userName);
+            Log.i("Login", "UserName: " + userName);
+
             Intent intent = new Intent(this, MenuActivity.class);
+            intent.putExtra("UserName", userName);
             startActivity(intent);
         }
         else{
@@ -86,6 +93,12 @@ public class MainActivity extends AppCompatActivity {
             return false;
 
         return userData.getPassword().equals(password);
+    }
+
+    public void saveData(String data) throws IOException {
+        FileOutputStream fileOutput = openFileOutput("userNameData.txt", MODE_PRIVATE);
+        fileOutput.write(data.getBytes());
+        fileOutput.close();
     }
 
     public void showWarn(String text){
