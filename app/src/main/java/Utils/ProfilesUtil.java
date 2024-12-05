@@ -6,6 +6,8 @@ public class ProfilesUtil extends Util{
     public static final String KEY_ID = "id";
     public static final String KEY_OWNER_NAME = "owner_name";
     public static final String KEY_REAL_NAME = "real_name";
+    public static final String KEY_GENDER = "gender";
+    public static final String KEY_GENDER_LOOKING = "gender_looking";
     public static final String KEY_AGE = "age";
     public static final String KEY_CITY = "city";
     public static final String KEY_DESCRIPTION = "description";

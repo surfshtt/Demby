@@ -39,6 +39,8 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                 + ProfilesUtil.KEY_ID + " INTEGER PRIMARY KEY, "
                 + ProfilesUtil.KEY_OWNER_NAME + " INTEGER, "
                 + ProfilesUtil.KEY_REAL_NAME + " TEXT, "
+                + ProfilesUtil.KEY_GENDER + " TEXT, "
+                + ProfilesUtil.KEY_GENDER_LOOKING + " TEXT, "
                 + ProfilesUtil.KEY_AGE + " INT, "
                 + ProfilesUtil.KEY_CITY + " TEXT, "
                 + ProfilesUtil.KEY_DESCRIPTION+ " TEXT, "
@@ -100,6 +102,8 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                     ProfilesUtil.KEY_ID,
                     ProfilesUtil.KEY_OWNER_NAME,
                     ProfilesUtil.KEY_REAL_NAME,
+                    ProfilesUtil.KEY_GENDER,
+                    ProfilesUtil.KEY_GENDER_LOOKING,
                     ProfilesUtil.KEY_AGE,
                     ProfilesUtil.KEY_CITY,
                     ProfilesUtil.KEY_DESCRIPTION,
@@ -118,14 +122,16 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                         Integer.parseInt(cursor.getString(0)),
                         cursor.getString(1),
                         cursor.getString(2),
-                        Integer.parseInt(cursor.getString(3)),
+                        cursor.getString(3),
                         cursor.getString(4),
-                        cursor.getString(5),
+                        Integer.parseInt(cursor.getString(5)),
                         cursor.getString(6),
                         cursor.getString(7),
-                        cursor.getBlob(8),
+                        cursor.getString(8),
                         cursor.getString(9),
-                        cursor.getString(10));
+                        cursor.getBlob(10),
+                        cursor.getString(11),
+                        cursor.getString(12));
             } catch (Exception e) {
                 return null;
             }

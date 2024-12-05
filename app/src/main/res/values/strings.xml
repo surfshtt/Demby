@@ -12,7 +12,24 @@
     <string name="go_reg_button">регистрация</string>
     <string name="go_log_button">войдите</string>
     <string name="create_account_button">Создать аккаунт</string>
+    <string name="tell_us_about_u">Для начала\nрасскажите о себе</string>
+    <string name="what_is_ur_name">Как вас зовут?</string>
+    <string name="how_old_are_u">Сколько вам лет?</string>
+    <string name="ur_town">Из какого вы города?</string>
     <string name="here_ur_prof">Вот твоя анкета:</string>
+    <string name="tell_about_u">Расскажите о себе</string>
+    <string name="tell_about_u_hint">Не забудьте упомнять ваши хобби, музыкальные вкусы, любимую еду</string>
+    <string name="about_gender1">Какой у вас гендер?</string>
+    <string name="about_gender2">Кого вы ищете?</string>
+    <string name="gender1">Мужчина</string>
+    <string name="gender2">Женщина</string>
+    <string name="gender3">Не скажу</string>
+    <string name="gender11">Мужчину</string>
+    <string name="gender22">Женщину</string>
+    <string name="gender4">Все равно</string>
+    <string name="tg_us">Укажите ваш юзернейм в телеграме</string>
+    <string name="inst_us">А так же юзернейм в инстаграме</string>
+
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

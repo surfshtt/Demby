@@ -1,14 +1,287 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".NewProfileFragment">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".NewProfileFragment"
+    android:background="@color/blue_bg">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <RelativeLayout
+        android:id="@+id/up_bg"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_height="80dp"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/rounded_corners_all_db">
 
-</FrameLayout>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="@string/tell_us_about_u"
+            android:textColor="@color/white"
+            android:fontFamily="@font/montserrat_extrabold"
+            android:textSize="26sp"
+            android:gravity="center"
+            />
+
+    </RelativeLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_below="@id/up_bg"
+        android:layout_height="500dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginHorizontal="20dp"
+        android:background="@drawable/rounded_corners_all_db">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="22dp"
+            android:orientation="vertical">
+
+            <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="@string/what_is_ur_name"
+            android:textColor="@color/white"
+            android:fontFamily="@font/montserrat_bold"
+            android:textSize="20sp"
+            android:gravity="center"/>
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginHorizontal="25dp"
+                android:padding="10dp"
+                android:inputType="text"
+                android:background="@drawable/rounded_corners_all_white"
+                android:gravity="center"
+                android:fontFamily="@font/montserrat_medium"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="18dp"
+                android:text="@string/how_old_are_u"
+                android:textColor="@color/white"
+                android:fontFamily="@font/montserrat_bold"
+                android:textSize="20sp"
+                android:gravity="center"/>
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginHorizontal="100dp"
+                android:padding="10dp"
+                android:background="@drawable/rounded_corners_all_white"
+                android:inputType="numberDecimal"
+                android:fontFamily="@font/montserrat_medium"
+                android:gravity="center"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="18dp"
+                android:text="@string/ur_town"
+                android:textColor="@color/white"
+                android:fontFamily="@font/montserrat_bold"
+                android:textSize="20sp"
+                android:gravity="center"/>
+
+           <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/rounded_corners_all_white"
+                android:layout_marginHorizontal="28dp"
+                android:layout_marginTop="8dp">
+
+               <AutoCompleteTextView
+                android:id="@+id/town_field"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="8dp"
+                android:layout_marginHorizontal="10dp"
+                android:fontFamily="@font/montserrat_medium"
+                android:textSize="15sp"
+                android:inputType="text"
+                android:gravity="center"
+                />
+           </RelativeLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="18dp"
+                android:text="@string/tell_about_u"
+                android:textColor="@color/white"
+                android:fontFamily="@font/montserrat_bold"
+                android:textSize="20sp"
+                android:gravity="center"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/tell_about_u_hint"
+                android:textColor="@color/white"
+                android:fontFamily="@font/montserrat_medium"
+                android:textSize="17sp"
+                android:gravity="center"/>
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:layout_marginTop="10dp"
+                android:padding="10dp"
+                android:background="@drawable/rounded_corners_all_white"
+                android:inputType="textMultiLine"
+                android:fontFamily="@font/montserrat_medium"
+                android:gravity="center_horizontal"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="21dp"
+                android:text="@string/about_gender1"
+                android:textColor="@color/white"
+                android:fontFamily="@font/montserrat_bold"
+                android:textSize="20sp"
+                android:gravity="center"/>
+
+            <com.google.android.material.chip.ChipGroup
+                android:id="@+id/chipGroup_genders1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:orientation="horizontal"
+                app:singleSelection="true"
+                >
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/gender_chip1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/rounded_corners_all_white"
+                    android:fontFamily="@font/montserrat_medium"
+                    android:text="@string/gender1"
+                    android:checkable="true"
+                     />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/gender_chip2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/rounded_corners_all_white"
+                    android:text="@string/gender2"
+                    android:layout_marginHorizontal="13dp"
+                    android:checkable="true"
+                    />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/gender_chip3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/rounded_corners_all_white"
+                    android:text="@string/gender3"
+                    android:checkable="true"
+                    />
+            </com.google.android.material.chip.ChipGroup>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="13dp"
+                android:text="@string/about_gender2"
+                android:textColor="@color/white"
+                android:fontFamily="@font/montserrat_bold"
+                android:textSize="20sp"
+                android:gravity="center"/>
+
+            <com.google.android.material.chip.ChipGroup
+                android:id="@+id/chipGroup_genders2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:orientation="horizontal"
+                app:singleSelection="true">
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/gender_chip11"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/rounded_corners_all_white"
+                    android:fontFamily="@font/montserrat_medium"
+                    android:text="@string/gender11"
+                    android:checkable="true"
+                    />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/gender_chip22"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/rounded_corners_all_white"
+                    android:text="@string/gender22"
+                    android:layout_marginHorizontal="12dp"
+                    android:checkable="true"
+                    />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/gender_chip33"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/rounded_corners_all_white"
+                    android:text="@string/gender4"
+                    android:checkable="true"
+                    />
+            </com.google.android.material.chip.ChipGroup>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="18dp"
+                android:text="@string/tg_us"
+                android:textColor="@color/white"
+                android:fontFamily="@font/montserrat_bold"
+                android:textSize="20sp"
+                android:gravity="center"/>
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginHorizontal="35dp"
+                android:padding="10dp"
+                android:inputType="text"
+                android:background="@drawable/rounded_corners_all_white"
+                android:gravity="center"
+                android:fontFamily="@font/montserrat_medium"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:text="@string/inst_us"
+                android:textColor="@color/white"
+                android:fontFamily="@font/montserrat_bold"
+                android:textSize="20sp"
+                android:gravity="center"/>
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginHorizontal="35dp"
+                android:padding="10dp"
+                android:inputType="text"
+                android:background="@drawable/rounded_corners_all_white"
+                android:gravity="center"
+                android:fontFamily="@font/montserrat_medium"/>
+
+        </LinearLayout>
+    </ScrollView>
+
+</RelativeLayout>

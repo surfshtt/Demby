@@ -4,6 +4,8 @@ public class Profile {
     private int id;
     private String ownerName;
     private String realName;
+    private String gender;
+    private String gender_looking;
     private int age;
     private String city;
     private String description;
@@ -16,9 +18,11 @@ public class Profile {
 
     public Profile(){}
 
-    public Profile(String ownerId, String realName, int age, String city, String description, String seenBy, String likedBy, byte[] image, String telegram, String instagram) {
+    public Profile(String ownerId, String realName, String gender, String gender_looking, int age, String city, String description, String seenBy, String likedBy, byte[] image, String telegram, String instagram) {
         this.ownerName = ownerId;
         this.realName = realName;
+        this.gender = gender;
+        this.gender_looking = gender_looking;
         this.age = age;
         this.city = city;
         this.description = description;
@@ -29,10 +33,12 @@ public class Profile {
         this.telegram = telegram;
     }
 
-    public Profile(int id, String ownerId, String realName, int age, String city, String description, String seenBy, String likedBy, byte[] image, String telegram, String instagram) {
+    public Profile(int id, String ownerId, String realName, String gender, String gender_looking, int age, String city, String description, String seenBy, String likedBy, byte[] image, String telegram, String instagram) {
         this.id = id;
         this.ownerName = ownerId;
         this.realName = realName;
+        this.gender = gender;
+        this.gender_looking = gender_looking;
         this.age = age;
         this.city = city;
         this.description = description;
@@ -41,6 +47,14 @@ public class Profile {
         this.image = image;
         this.instagram = instagram;
         this.telegram = telegram;
+    }
+
+    public String getGender_looking() {
+        return gender_looking;
+    }
+
+    public String getGender() {
+        return gender;
     }
 
     public String getTelegram() {
@@ -50,6 +64,7 @@ public class Profile {
     public String getInstagram() {
         return instagram;
     }
+
     public byte[] getImage() {
         return image;
     }
@@ -104,6 +119,14 @@ public class Profile {
 
     public void setOwnerId(String ownerId) {
         this.ownerName = ownerId;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
+
+    public void setGender_looking(String gender_looking) {
+        this.gender_looking = gender_looking;
     }
 
     public void setRealName(String name) {

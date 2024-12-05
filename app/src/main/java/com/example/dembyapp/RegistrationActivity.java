@@ -131,7 +131,12 @@ public class RegistrationActivity extends AppCompatActivity {
             second_password_field.setTextColor(getResources().getColor(R.color.white));
         }
 
-        User newAccount = new User(user_name_field.getText().toString(), email_field.getText().toString(), first_password_field.getText().toString());
+        User newAccount = new User(
+                user_name_field.getText().toString(),
+                email_field.getText().toString(),
+                first_password_field.getText().toString()
+        );
+
         databaseHandler.newUser(newAccount);
 
         Log.d("DB", "Аккаунт " + user_name_field + " создан");

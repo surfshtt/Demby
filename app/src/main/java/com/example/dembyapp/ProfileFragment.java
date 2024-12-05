@@ -3,11 +3,13 @@ package com.example.dembyapp;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import java.io.BufferedReader;
@@ -21,9 +23,10 @@ import Model.Profile;
 
 public class ProfileFragment extends Fragment {
 
-    DatabaseHandler databaseHandler;
+    private DatabaseHandler databaseHandler;
     private static String userName;
-    TextView hi_text, here_is_your_profile_text;
+    private TextView hi_text, here_is_your_profile_text;
+
 
 
     public ProfileFragment() {
@@ -44,26 +47,18 @@ public class ProfileFragment extends Fragment {
         hi_text = view.findViewById(R.id.hi_text);
         here_is_your_profile_text = view.findViewById(R.id.here_is_your_profile_text);
         userName = getUN();
+
         databaseHandler = new DatabaseHandler(requireContext());
 
-        if(databaseHandler.getProfileByName(userName) == null){
+        Profile userProfile = new Profile();
+        userProfile = databaseHandler.getProfileByName(userName);
+        String profileName = userProfile.getRealName();
 
-            hi_text.setText("Привет!");
-            here_is_your_profile_text.setText("Для начала заполни анкету:");
-        }
-        else{
-            Profile userProfile = new Profile();
-            userProfile = databaseHandler.getProfileByName(userName);
+        if(profileName.length() > 7)
+            hi_text.setTextSize(26);
 
-            String profileName = userProfile.getRealName();
-
-            if(profileName.length() > 7)
-                hi_text.setTextSize(26);
-
-            String hiText = "Привет " + profileName + "!";
-            hi_text.setText(hiText);
-
-        }
+        String hiText = "Привет " + profileName + "!";
+        hi_text.setText(hiText);
 
         return view;
     }
@@ -80,7 +75,7 @@ public class ProfileFragment extends Fragment {
                 stringBuffer.append(lines).append("\n");
             }
 
-            Log.i("Login","Uploaded data: " + stringBuffer.toString());
+            Log.i("Profile","Uploaded data for main: " + stringBuffer.toString());
 
            return stringBuffer.toString();
         } catch (IOException e) {

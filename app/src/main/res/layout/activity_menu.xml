@@ -9,9 +9,14 @@
     tools:context=".MenuActivity">
 
 
+    <FrameLayout
+        android:id="@+id/frame_field"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/menu_field"
+        android:layout_marginBottom="20dp">
 
-
-
+    </FrameLayout>
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/menu_field"
@@ -29,18 +34,6 @@
         app:itemIconTint="@color/white"
         app:itemTextColor="@color/white"
         app:itemIconSize="30dp"/>
-
-    <fragment
-        android:id="@+id/fragment"
-        android:name="androidx.navigation.fragment.NavHostFragment"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:defaultNavHost="true"
-        app:layout_constraintBottom_toTopOf="@+id/menu_field"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:navGraph="@navigation/main_nav" />
 
 
 
