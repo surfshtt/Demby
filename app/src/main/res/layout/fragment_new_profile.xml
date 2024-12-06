@@ -52,6 +52,7 @@
             android:gravity="center"/>
 
             <EditText
+                android:id="@+id/profile_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
@@ -73,6 +74,7 @@
                 android:gravity="center"/>
 
             <EditText
+                android:id="@+id/profile_age"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
@@ -133,6 +135,7 @@
                 android:gravity="center"/>
 
             <EditText
+                android:id="@+id/profile_description"
                 android:layout_width="match_parent"
                 android:layout_height="200dp"
                 android:layout_marginTop="10dp"
@@ -250,6 +253,7 @@
                 android:gravity="center"/>
 
             <EditText
+                android:id="@+id/profile_tg"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
@@ -271,6 +275,7 @@
                 android:gravity="center"/>
 
             <EditText
+                android:id="@+id/profile_inst"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
@@ -280,6 +285,39 @@
                 android:background="@drawable/rounded_corners_all_white"
                 android:gravity="center"
                 android:fontFamily="@font/montserrat_medium"/>
+
+            <ImageView
+                android:id="@+id/image_from_user"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="22dp"
+                android:layout_marginHorizontal="12dp"
+                />
+
+            <Button
+                android:id="@+id/upload_img_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:layout_gravity="center"
+                android:backgroundTint="@color/blue3"
+                android:text="@string/upload_photo"
+                android:textSize="18sp"
+                android:fontFamily="@font/montserrat_bold"
+                app:cornerRadius="15dp" />
+
+            <Button
+                android:id="@+id/save_profile"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="22dp"
+                android:layout_marginTop="12dp"
+                android:layout_gravity="center"
+                android:backgroundTint="@color/blue3"
+                android:text="@string/save_changes"
+                android:textSize="24sp"
+                android:fontFamily="@font/montserrat_extrabold"
+                app:cornerRadius="15dp" />
 
         </LinearLayout>
     </ScrollView>

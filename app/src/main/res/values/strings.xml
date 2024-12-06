@@ -29,6 +29,8 @@
     <string name="gender4">Все равно</string>
     <string name="tg_us">Укажите ваш юзернейм в телеграме</string>
     <string name="inst_us">А так же юзернейм в инстаграме</string>
+    <string name="upload_photo">Загрузить ваше фото</string>
+    <string name="save_changes">Сохранить</string>
 
 
     <!-- TODO: Remove or change this placeholder text -->
