@@ -160,4 +160,10 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         db.insert(ProfilesUtil.TABLE_NAME, null, contentValues);
         db.close();
     }
+
+    public void deleteProfile(String userName){
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete(ProfilesUtil.TABLE_NAME,ProfilesUtil.KEY_OWNER_NAME + "=?", new String[]{userName});
+        db.close();
+    }
 }

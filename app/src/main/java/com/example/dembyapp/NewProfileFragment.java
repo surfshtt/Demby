@@ -12,6 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.provider.MediaStore;
 import android.util.Log;
@@ -110,7 +111,11 @@ public class NewProfileFragment extends Fragment {
                     Log.i("Profile","New profile for " + userName + " was created");
                     showWarn("Анкета сохранена!");
 
-
+                    Fragment fr = new ProfileFragment();
+                    FragmentTransaction transaction = getFragmentManager().beginTransaction();
+                    transaction.replace(R.id.frame_field, fr);
+                    transaction.addToBackStack(null);
+                    transaction.commit();
                 }
                 else {
                     Log.i("Profile","Access to creating a profile is denied");
@@ -134,7 +139,7 @@ public class NewProfileFragment extends Fragment {
                 stringBuffer.append(lines).append("\n");
             }
 
-            Log.i("Profile","Uploaded data for newAccount: " + stringBuffer.toString());
+            Log.i("Profile","Uploaded data for new profile owner: " + stringBuffer.toString());
 
             return stringBuffer.toString();
         } catch (IOException e) {
