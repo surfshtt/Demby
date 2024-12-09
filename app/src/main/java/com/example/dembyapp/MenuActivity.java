@@ -20,9 +20,12 @@ import androidx.navigation.ui.NavigationUI;
 import com.example.dembyapp.databinding.ActivityMenuBinding;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+import java.io.BufferedReader;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
 
 import Data.DatabaseHandler;
 
@@ -47,8 +50,7 @@ public class MenuActivity extends AppCompatActivity {
         menu_field = findViewById(R.id.menu_field);
         databaseHandler = new DatabaseHandler(this);
 
-        Intent intent = getIntent();
-        userName = intent.getStringExtra("UserName");
+        userName = getUN();
 
         menu_field.setSelectedItemId(R.id.watchProfilesFragment);
         replaceFragment(new watchProfilesFragment());
@@ -63,8 +65,6 @@ public class MenuActivity extends AppCompatActivity {
             if(item.getItemId() == R.id.profileFragment){
                 if(databaseHandler.getProfileByName(userName)==null) {
                     replaceFragment(new NewProfileFragment());
-                    Log.d("Profile", String.valueOf(databaseHandler.getProfileByName(userName)));
-                    Log.d("Profile", userName);
                 }
                 else {
                     replaceFragment(new ProfileFragment());
@@ -80,5 +80,26 @@ public class MenuActivity extends AppCompatActivity {
         FragmentTransaction fs = fragmentManager.beginTransaction();
         fs.replace(R.id.frame_field, fragment);
         fs.commit();
+    }
+
+    public String getUN(){
+        try {
+            FileInputStream fileInput = openFileInput("userNameData.txt");
+            InputStreamReader reader = new InputStreamReader(fileInput);
+            BufferedReader bR = new BufferedReader(reader);
+
+            StringBuilder stringBuffer = new StringBuilder();
+            String lines = "";
+            while ((lines = bR.readLine()) != null) {
+                stringBuffer.append(lines).append("\n");
+            }
+
+            Log.i("Profile","Uploaded data for main: " + stringBuffer.toString());
+
+            return stringBuffer.toString();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 }

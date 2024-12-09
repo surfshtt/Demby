@@ -118,6 +118,20 @@
             </ScrollView>
 
             <Button
+                android:id="@+id/edit_profile_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_marginHorizontal="8dp"
+                android:layout_marginVertical="8dp"
+                android:layout_below="@id/description_field"
+                android:backgroundTint="@color/blue3"
+                android:text="@string/edit_changes"
+                android:textSize="14sp"
+                android:fontFamily="@font/montserrat_extrabold"
+                app:cornerRadius="15dp" />
+
+            <Button
                 android:id="@+id/delete_profile_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -125,12 +139,11 @@
                 android:layout_marginHorizontal="8dp"
                 android:layout_marginVertical="8dp"
                 android:layout_below="@id/description_field"
-                android:backgroundTint="@color/blue3"
+                android:backgroundTint="@color/blue4"
                 android:text="@string/delete_changes"
                 android:textSize="14sp"
                 android:fontFamily="@font/montserrat_extrabold"
                 app:cornerRadius="15dp" />
-
 
         </RelativeLayout>
 

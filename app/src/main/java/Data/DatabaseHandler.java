@@ -13,6 +13,7 @@ import com.example.dembyapp.ProfileFragment;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import Model.Profile;
 import Model.User;
@@ -54,7 +55,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                 + ProfilesUtil.KEY_TELEGRAM + " TEXT)";
 
         db.execSQL(CREATE_NOTE_TABLE);
-        Log.d("DB", "Таблица " + UsersUtil.TABLE_NAME +" создана");
+        Log.d("DB", "Таблица " + ProfilesUtil.TABLE_NAME +" создана");
     }
 
     @Override
@@ -144,10 +145,11 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                 ProfilesUtil.KEY_TELEGRAM
         }, ProfilesUtil.KEY_OWNER_NAME + "=?", new String[]{userName}, null, null, null, null);
 
-        if (cursor != null) {
+        if(cursor != null){
             try {
-                if (cursor.moveToFirst()) {
-                    Profile tmp = new Profile(
+                cursor.moveToFirst();
+
+                return new Profile(
                             Integer.parseInt(cursor.getString(0)),
                             cursor.getString(1),
                             cursor.getString(2),
@@ -162,20 +164,59 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                             cursor.getString(11),
                             cursor.getString(12)
                     );
-                    return tmp;
-                } else {
-                    Log.d("ProfileQuery", "No results found for user: " + userName);
-                    return null;
-                }
-            } catch (Exception ex) {
+            }
+            catch (Exception ex) {
                 Log.e("ProfileQuery", "Error retrieving profile: " + ex.getMessage());
                 return null;
-            } finally {
-                cursor.close();
             }
         }
+        else{
+            return null;
+        }
 
-        return null;
+//        SQLiteDatabase db = this.getReadableDatabase();
+//        Cursor cursor = db.query(ProfilesUtil.TABLE_NAME, new String[]{
+//                ProfilesUtil.KEY_ID,
+//                ProfilesUtil.KEY_OWNER_NAME,
+//                ProfilesUtil.KEY_REAL_NAME,
+//                ProfilesUtil.KEY_GENDER,
+//                ProfilesUtil.KEY_GENDER_LOOKING,
+//                ProfilesUtil.KEY_AGE,
+//                ProfilesUtil.KEY_CITY,
+//                ProfilesUtil.KEY_DESCRIPTION,
+//                ProfilesUtil.KEY_SEEN_BY,
+//                ProfilesUtil.KEY_LIKED_BY,
+//                ProfilesUtil.KEY_IMAGE,
+//                ProfilesUtil.KEY_INSTAGRAM,
+//                ProfilesUtil.KEY_TELEGRAM
+//        }, ProfilesUtil.KEY_OWNER_NAME + "=?", new String[]{userName}, null, null, null, null);
+//
+//        while(cursor.moveToNext()){
+//            Log.i("aaa", cursor.getString(1));
+//            Log.i("aaa", userName);
+//            if(Objects.equals(cursor.getString(1), userName)){
+//
+//                return new Profile(
+//                            Integer.parseInt(cursor.getString(0)),
+//                            cursor.getString(1),
+//                            cursor.getString(2),
+//                            cursor.getString(3),
+//                            cursor.getString(4),
+//                            Integer.parseInt(cursor.getString(5)),
+//                            cursor.getString(6),
+//                            cursor.getString(7),
+//                            cursor.getString(8),
+//                            cursor.getString(9),
+//                            cursor.getBlob(10),
+//                            cursor.getString(11),
+//                            cursor.getString(12)
+//                );
+//            }
+//            else{
+//                cursor.moveToNext();
+//            }
+//        }
+//        return null;
     }
 
     public void newProfile(Profile profile) {
@@ -218,6 +259,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         List<Profile> profilesList = new ArrayList<>();
 
         Profile tmpProf = getProfileByName(userName);
+        Log.i("aaa", tmpProf.getRealName());
         if (tmpProf == null) {
             return null; // Возвращаем пустой список, если профиль не найден
         }

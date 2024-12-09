@@ -100,7 +100,6 @@ public class ProfileFragment extends Fragment {
         builder.setPositiveButton("Да", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                // Логика удаления анкеты
                 databaseHandler.deleteProfile(userName);
             }
         });
@@ -108,7 +107,7 @@ public class ProfileFragment extends Fragment {
         builder.setNegativeButton("Нет", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss(); // Закрыть диалог
+                dialog.dismiss();
             }
         });
 
