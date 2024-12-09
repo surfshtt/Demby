@@ -120,8 +120,10 @@ public class RegistrationActivity extends AppCompatActivity {
         }
 
         //Валидация пароля
-        if(first_password_field.getText().toString().isEmpty() || first_password_field.getText().toString().contains(" ") ||
-            first_password_field.getText().toString().length() < 8){
+        if(first_password_field.getText().toString().isEmpty() ||
+            first_password_field.getText().toString().contains(" ") ||
+            first_password_field.getText().toString().length() < 8 ||
+                first_password_field.getText().toString().length() > 15){
             showWarn("Некорректный пароль!");
             first_password_field.setTextColor(getResources().getColor(R.color.warn_red));
             second_password_field.setTextColor(getResources().getColor(R.color.warn_red));

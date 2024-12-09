@@ -11,6 +11,9 @@ import androidx.fragment.app.Fragment;
 
 import com.example.dembyapp.ProfileFragment;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import Model.Profile;
 import Model.User;
 import Utils.ProfilesUtil;
@@ -37,7 +40,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
         CREATE_NOTE_TABLE = "CREATE TABLE " + ProfilesUtil.TABLE_NAME + " ("
                 + ProfilesUtil.KEY_ID + " INTEGER PRIMARY KEY, "
-                + ProfilesUtil.KEY_OWNER_NAME + " INTEGER, "
+                + ProfilesUtil.KEY_OWNER_NAME + " TEXT, "
                 + ProfilesUtil.KEY_REAL_NAME + " TEXT, "
                 + ProfilesUtil.KEY_GENDER + " TEXT, "
                 + ProfilesUtil.KEY_GENDER_LOOKING + " TEXT, "
@@ -96,44 +99,79 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         return null;
     }
 
-    public Profile getProfileByName(String userName){
+    public List<User> getAllUsers() {
+        List<User> userList = new ArrayList<>();
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.query(ProfilesUtil.TABLE_NAME,new String[] {
-                    ProfilesUtil.KEY_ID,
-                    ProfilesUtil.KEY_OWNER_NAME,
-                    ProfilesUtil.KEY_REAL_NAME,
-                    ProfilesUtil.KEY_GENDER,
-                    ProfilesUtil.KEY_GENDER_LOOKING,
-                    ProfilesUtil.KEY_AGE,
-                    ProfilesUtil.KEY_CITY,
-                    ProfilesUtil.KEY_DESCRIPTION,
-                    ProfilesUtil.KEY_SEEN_BY,
-                    ProfilesUtil.KEY_LIKED_BY,
-                    ProfilesUtil.KEY_IMAGE,
-                    ProfilesUtil.KEY_INSTAGRAM,
-                    ProfilesUtil.KEY_TELEGRAM
-        }, ProfilesUtil.KEY_OWNER_NAME + "=?", new String[]{userName}, null,null,null,null);
+        Cursor cursor = db.query(UsersUtil.TABLE_NAME,
+                new String[]{UsersUtil.KEY_ID, UsersUtil.KEY_USERNAME, UsersUtil.KEY_EMAIL, UsersUtil.KEY_PASSWORD},
+                null, null, null, null, null);
 
-        if(cursor != null){
+        if (cursor != null) {
             try {
-                cursor.moveToFirst();
-
-                return new Profile(
-                        Integer.parseInt(cursor.getString(0)),
-                        cursor.getString(1),
-                        cursor.getString(2),
-                        cursor.getString(3),
-                        cursor.getString(4),
-                        Integer.parseInt(cursor.getString(5)),
-                        cursor.getString(6),
-                        cursor.getString(7),
-                        cursor.getString(8),
-                        cursor.getString(9),
-                        cursor.getBlob(10),
-                        cursor.getString(11),
-                        cursor.getString(12));
+                while (cursor.moveToNext()) {
+                    User user = new User(
+                            Integer.parseInt(cursor.getString(0)),
+                            cursor.getString(1),
+                            cursor.getString(2),
+                            cursor.getString(3)
+                    );
+                    userList.add(user);
+                }
             } catch (Exception e) {
+                e.printStackTrace();
+            } finally {
+                cursor.close();
+            }
+        }
+        return userList;
+    }
+
+    public Profile getProfileByName(String userName) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.query(ProfilesUtil.TABLE_NAME, new String[]{
+                ProfilesUtil.KEY_ID,
+                ProfilesUtil.KEY_OWNER_NAME,
+                ProfilesUtil.KEY_REAL_NAME,
+                ProfilesUtil.KEY_GENDER,
+                ProfilesUtil.KEY_GENDER_LOOKING,
+                ProfilesUtil.KEY_AGE,
+                ProfilesUtil.KEY_CITY,
+                ProfilesUtil.KEY_DESCRIPTION,
+                ProfilesUtil.KEY_SEEN_BY,
+                ProfilesUtil.KEY_LIKED_BY,
+                ProfilesUtil.KEY_IMAGE,
+                ProfilesUtil.KEY_INSTAGRAM,
+                ProfilesUtil.KEY_TELEGRAM
+        }, ProfilesUtil.KEY_OWNER_NAME + "=?", new String[]{userName}, null, null, null, null);
+
+        if (cursor != null) {
+            try {
+                if (cursor.moveToFirst()) {
+                    Profile tmp = new Profile(
+                            Integer.parseInt(cursor.getString(0)),
+                            cursor.getString(1),
+                            cursor.getString(2),
+                            cursor.getString(3),
+                            cursor.getString(4),
+                            Integer.parseInt(cursor.getString(5)),
+                            cursor.getString(6),
+                            cursor.getString(7),
+                            cursor.getString(8),
+                            cursor.getString(9),
+                            cursor.getBlob(10),
+                            cursor.getString(11),
+                            cursor.getString(12)
+                    );
+                    return tmp;
+                } else {
+                    Log.d("ProfileQuery", "No results found for user: " + userName);
+                    return null;
+                }
+            } catch (Exception ex) {
+                Log.e("ProfileQuery", "Error retrieving profile: " + ex.getMessage());
                 return null;
+            } finally {
+                cursor.close();
             }
         }
 
@@ -164,6 +202,54 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     public void deleteProfile(String userName){
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete(ProfilesUtil.TABLE_NAME,ProfilesUtil.KEY_OWNER_NAME + "=?", new String[]{userName});
+        Log.d("Accounts", userName + "'s profile has successfully deleted");
         db.close();
+    }
+
+    public void deleteProfileById(String id){
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete(ProfilesUtil.TABLE_NAME,ProfilesUtil.KEY_ID + "=?", new String[]{id});
+        Log.d("Accounts", "Profile with id " + id + " has successfully deleted");
+        db.close();
+    }
+
+    public List<Profile> getProfiles(String userName) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        List<Profile> profilesList = new ArrayList<>();
+
+        Profile tmpProf = getProfileByName(userName);
+        if (tmpProf == null) {
+            return null; // Возвращаем пустой список, если профиль не найден
+        }
+
+        String selectAllNotes = "SELECT * FROM " + ProfilesUtil.TABLE_NAME;
+        Cursor cursor = db.rawQuery(selectAllNotes, null);
+
+        if (cursor.moveToFirst()) {
+            do {
+                profilesList.add(new Profile(
+                        Integer.parseInt(cursor.getString(0)),
+                        cursor.getString(1),
+                        cursor.getString(2),
+                        cursor.getString(3),
+                        cursor.getString(4),
+                        Integer.parseInt(cursor.getString(5)),
+                        cursor.getString(6),
+                        cursor.getString(7),
+                        cursor.getString(8),
+                        cursor.getString(9),
+                        cursor.getBlob(10),
+                        cursor.getString(11),
+                        cursor.getString(12)
+                ));
+            } while (cursor.moveToNext());
+        }
+
+        cursor.close();
+        return profilesList;
+    }
+
+    public void resetProfilesSeen(){
+
     }
 }

@@ -101,7 +101,7 @@ public class ProfileFragment extends Fragment {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 // Логика удаления анкеты
-                deleteProfile();
+                databaseHandler.deleteProfile(userName);
             }
         });
 

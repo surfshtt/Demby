@@ -3,6 +3,7 @@ package com.example.dembyapp;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -60,10 +61,14 @@ public class MenuActivity extends AppCompatActivity {
                 replaceFragment(new watchProfilesFragment());
             }
             if(item.getItemId() == R.id.profileFragment){
-                if(databaseHandler.getProfileByName(userName)==null)
+                if(databaseHandler.getProfileByName(userName)==null) {
                     replaceFragment(new NewProfileFragment());
-                else
+                    Log.d("Profile", String.valueOf(databaseHandler.getProfileByName(userName)));
+                    Log.d("Profile", userName);
+                }
+                else {
                     replaceFragment(new ProfileFragment());
+                }
             }
 
             return true;

@@ -16,8 +16,11 @@ import androidx.core.view.WindowInsetsCompat;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.List;
+import java.util.Random;
 
 import Data.DatabaseHandler;
+import Model.Profile;
 import Model.User;
 
 public class MainActivity extends AppCompatActivity {
@@ -51,6 +54,9 @@ public class MainActivity extends AppCompatActivity {
         password_field = findViewById(R.id.password_field);
 
         databaseHandler = new DatabaseHandler(this);
+
+        //printUsers();
+        //printProfiles();
     }
 
     public void goToRegActivity(View v){
@@ -79,9 +85,55 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    private void printUsers(){
+        StringBuilder accounts = new StringBuilder();
+        accounts.append("Accounts:");
+        accounts.append("\n");
+
+        List<User> usersList = databaseHandler.getAllUsers();
+
+        for(User us : usersList){
+            accounts.append("ID ");
+            accounts.append(us.getId());
+            accounts.append(": ");
+            accounts.append("username: ");
+            accounts.append(us.getUsername());
+            accounts.append(" password: ");
+            accounts.append(us.getPassword());
+            accounts.append(" email: ");
+            accounts.append(us.getEmail());
+            accounts.append("\n");
+        }
+
+        Log.i("Accounts", String.valueOf(accounts));
+    }
+
+    private void printProfiles() {
+        StringBuilder accounts = new StringBuilder();
+        accounts.append("Profiles:");
+        accounts.append("\n");
+
+        List<Profile> profilesList = databaseHandler.getProfiles("ad");
+
+        for(Profile pr : profilesList){
+            accounts.append("ID ");
+            accounts.append(pr.getId());
+            accounts.append(": ");
+            accounts.append("username: ");
+            accounts.append(pr.getOwnerId());
+            accounts.append(" real name: ");
+            accounts.append(pr.getRealName());
+            accounts.append(" age: ");
+            accounts.append(pr.getAge());
+            accounts.append("\n");
+        }
+
+        Log.i("Accounts", String.valueOf(accounts));
+    }
+
     private boolean fieldValidation(String userName, String password){
 
-        if(userName.isEmpty() || userName.contains(" ") || userName.contains("SELECT") || userName.contains("WHERE"))
+        if(userName.isEmpty() || userName.contains(" ") || userName.length() > 15 )
             return false;
 
         if(databaseHandler.getUser(userName) == null)
@@ -89,7 +141,7 @@ public class MainActivity extends AppCompatActivity {
 
         User userData = databaseHandler.getUser(userName);
 
-        if(password.isEmpty() || password.contains(" ") || password.length() < 8)
+        if(password.isEmpty() || password.contains(" ") || password.length() < 8 || password.length() > 15)
             return false;
 
         return userData.getPassword().equals(password);
