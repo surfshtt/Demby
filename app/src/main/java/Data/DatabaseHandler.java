@@ -259,7 +259,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         List<Profile> profilesList = new ArrayList<>();
 
         Profile tmpProf = getProfileByName(userName);
-        Log.i("aaa", tmpProf.getRealName());
+
         if (tmpProf == null) {
             return null; // Возвращаем пустой список, если профиль не найден
         }

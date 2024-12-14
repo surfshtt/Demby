@@ -1,64 +1,201 @@
 package com.example.dembyapp;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
+import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link MutualLikeFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+import Data.DatabaseHandler;
+import Model.Profile;
+
+
 public class MutualLikeFragment extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    private String userName;
+    private DatabaseHandler databaseHandler;
+    private List<String> profilesToShow;
+    private ImageView profile_image, like_button, dislike_button;
+    private static int numOfProf = 0;
+    private static boolean isExist = false;
+    private TextView your_name_field, your_age_field, your_city_field, profile_description_field;
 
     public MutualLikeFragment() {
-        // Required empty public constructor
-    }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment MutualLikeFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static MutualLikeFragment newInstance(String param1, String param2) {
-        MutualLikeFragment fragment = new MutualLikeFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
+
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_mutual_like, container, false);
+        View view = inflater.inflate(R.layout.fragment_mutual_like, container, false);
+
+        databaseHandler = new DatabaseHandler(requireContext());
+
+        like_button = view.findViewById(R.id.like_button);
+        dislike_button = view.findViewById(R.id.dislike_button);
+
+        your_name_field = view.findViewById(R.id.your_name_field);
+        your_age_field = view.findViewById(R.id.your_age_field);
+        your_city_field = view.findViewById(R.id.your_city_field);
+        profile_description_field = view.findViewById(R.id.profile_description_field);
+        profile_image = view.findViewById(R.id.profile_image);
+
+        userName = getUN();
+        Profile userProfile = databaseHandler.getProfileByName(userName);
+
+        if (userProfile != null) {
+            isExist = true;
+
+            String[] likesBy = userProfile.getLikedBy().split("\\$");
+
+            for (String user : likesBy) {
+                if (isMutual(user)) {
+                    profilesToShow.add(user);
+                }
+            }
+
+            if (!profilesToShow.isEmpty()) {
+                showProfile(databaseHandler.getProfileByName(profilesToShow.get(numOfProf)));
+                numOfProf++;
+            }
+
+        }
+        else{
+            isExist = false;
+        }
+
+        like_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(profilesToShow == null){return;}
+
+                if(!profilesToShow.isEmpty() && isExist ) {
+                    numOfProf++;
+                    try {
+                        changeColor(like_button);
+                        showProfile(databaseHandler.getProfileByName(profilesToShow.get(numOfProf)));
+                    } catch (Exception ex) {
+                        showWarn("К сожалению это все(");
+                    }
+                }
+                else{
+                    showWarn("К сожалению это все(");
+                }
+            }
+        });
+
+        dislike_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(profilesToShow == null){return;}
+
+                if(!profilesToShow.isEmpty() && isExist) {
+                    numOfProf++;
+                    try {
+                        changeColor(dislike_button);
+                        showProfile(databaseHandler.getProfileByName(profilesToShow.get(numOfProf)));
+                    } catch (Exception ex) {
+                        showWarn("К сожалению это все(");
+                    }
+                }
+                else{
+                    showWarn("К сожалению это все(");
+                }
+            }
+        });
+
+        return view;
+    }
+
+    public void showProfile(Profile profileToShow){
+        your_name_field.setText(profileToShow.getRealName());
+        your_age_field.setText(String.valueOf(profileToShow.getAge()));
+        your_city_field.setText(profileToShow.getCity());
+        profile_description_field.setText(profileToShow.getDescription());
+
+        Bitmap bitmap = BitmapFactory.decodeByteArray(profileToShow.getImage(), 0, profileToShow.getImage().length);
+        profile_image.setImageBitmap(bitmap);
+    }
+
+    private boolean isMutual(String user){
+        String[] tmp = databaseHandler.getProfileByName(user).getLikedBy().split("\\$");
+        for (String us : tmp) {
+            try {
+                if (us.equals(userName)) {
+                    return true;
+                }
+            } catch (Exception ignored) {
+            }
+        }
+        return false;
+    }
+
+    public String getUN(){
+        try {
+            FileInputStream fileInput = requireContext().openFileInput("userNameData.txt");
+            InputStreamReader reader = new InputStreamReader(fileInput);
+            BufferedReader bR = new BufferedReader(reader);
+
+            StringBuilder stringBuffer = new StringBuilder();
+            String lines = "";
+            while ((lines = bR.readLine()) != null) {
+                stringBuffer.append(lines).append("\n");
+            }
+
+            Log.i("Profile","Uploaded data for main: " + stringBuffer.toString());
+
+            return stringBuffer.toString();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    private void changeColor(ImageView img) {
+        AlphaAnimation animation = new AlphaAnimation(1f, 0.5f);
+        animation.setDuration(200);
+        animation.setRepeatCount(1);
+        animation.setRepeatMode(Animation.REVERSE);
+        img.startAnimation(animation);
+
+        animation.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {}
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                img.clearColorFilter();
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {}
+        });
+    }
+
+    public void showWarn(String text){
+        Toast.makeText(requireContext(),text,Toast.LENGTH_SHORT).show();
     }
 }

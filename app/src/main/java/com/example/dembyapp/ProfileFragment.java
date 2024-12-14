@@ -100,7 +100,7 @@ public class ProfileFragment extends Fragment {
         builder.setPositiveButton("Да", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                databaseHandler.deleteProfile(userName);
+                deleteProfile();
             }
         });
 
