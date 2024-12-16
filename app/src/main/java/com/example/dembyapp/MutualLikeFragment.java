@@ -3,6 +3,7 @@ package com.example.dembyapp;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 
@@ -14,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -40,6 +42,7 @@ public class MutualLikeFragment extends Fragment {
     private static boolean isExist = false;
     String urlTg,urlInst;
     private TextView your_name_field, your_age_field, your_city_field, profile_description_field;
+    private Button next_profile_button;
 
     public MutualLikeFragment() {
     }
@@ -64,6 +67,7 @@ public class MutualLikeFragment extends Fragment {
         your_city_field = view.findViewById(R.id.your_city_field);
         profile_description_field = view.findViewById(R.id.profile_description_field);
         profile_image = view.findViewById(R.id.profile_image);
+        next_profile_button = view.findViewById(R.id.next_profile_button);
 
         userName = getUN();
         Profile userProfile = databaseHandler.getProfileByName(userName);
@@ -85,7 +89,6 @@ public class MutualLikeFragment extends Fragment {
             }
 
             showProfile(databaseHandler.getProfileByName(profilesToShow.get(numOfProf)));
-            //numOfProf++;
         }
 
         inst_button.setOnClickListener(new View.OnClickListener() {
@@ -100,10 +103,33 @@ public class MutualLikeFragment extends Fragment {
         tg_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 Intent intent = new Intent(Intent.ACTION_VIEW);
                 intent.setData(Uri.parse(urlTg));
                 startActivity(intent);
+            }
+        });
+
+        next_profile_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                numOfProf++;
+                if(numOfProf < profilesToShow.size()){
+
+                    //TODO удаление аккауната из таблицы mutual
+
+                    showProfile(databaseHandler.getProfileByName(profilesToShow.get(numOfProf)));
+                }
+                else{
+                    your_name_field.setText("Demby");
+                    your_age_field.setText("");
+                    your_city_field.setText("Минск");
+                    profile_description_field.setText("Пока что это все");
+
+                    profile_image.setImageResource(R.mipmap.demeby_icon_round);
+
+                    urlInst = "https://instagram.com/";
+                    urlTg = "https://t.me/";
+                }
             }
         });
 

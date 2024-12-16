@@ -15,8 +15,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import Model.ArchiveMutual;
 import Model.Profile;
 import Model.User;
+import Utils.ArchiveMutualUtil;
 import Utils.ProfilesUtil;
 import Utils.UsersUtil;
 import Utils.Util;
@@ -56,12 +58,21 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
         db.execSQL(CREATE_NOTE_TABLE);
         Log.d("DB", "Таблица " + ProfilesUtil.TABLE_NAME +" создана");
+
+        CREATE_NOTE_TABLE = "CREATE TABLE " + ArchiveMutualUtil.TABLE_NAME + " ("
+                + ArchiveMutualUtil.KEY_ID + " INTEGER PRIMARY KEY, "
+                + ArchiveMutualUtil.KEY_OWNER_NAME + " TEXT, "
+                + ArchiveMutualUtil.KEY_MUTUAL_NAMES + " TEXT)";
+
+        db.execSQL(CREATE_NOTE_TABLE);
+        Log.d("DB", "Таблица " + ArchiveMutualUtil.TABLE_NAME +" создана");
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL("DROP TABLE IF EXISTS " + UsersUtil.TABLE_NAME);
         db.execSQL("DROP TABLE IF EXISTS " + ProfilesUtil.TABLE_NAME);
+        db.execSQL("DROP TABLE IF EXISTS " + ArchiveMutualUtil.TABLE_NAME);
 
         onCreate(db);
         Log.d("DB", "БД " + Util.DATABASE_NAME +" обновлена");
@@ -173,50 +184,6 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         else{
             return null;
         }
-
-//        SQLiteDatabase db = this.getReadableDatabase();
-//        Cursor cursor = db.query(ProfilesUtil.TABLE_NAME, new String[]{
-//                ProfilesUtil.KEY_ID,
-//                ProfilesUtil.KEY_OWNER_NAME,
-//                ProfilesUtil.KEY_REAL_NAME,
-//                ProfilesUtil.KEY_GENDER,
-//                ProfilesUtil.KEY_GENDER_LOOKING,
-//                ProfilesUtil.KEY_AGE,
-//                ProfilesUtil.KEY_CITY,
-//                ProfilesUtil.KEY_DESCRIPTION,
-//                ProfilesUtil.KEY_SEEN_BY,
-//                ProfilesUtil.KEY_LIKED_BY,
-//                ProfilesUtil.KEY_IMAGE,
-//                ProfilesUtil.KEY_INSTAGRAM,
-//                ProfilesUtil.KEY_TELEGRAM
-//        }, ProfilesUtil.KEY_OWNER_NAME + "=?", new String[]{userName}, null, null, null, null);
-//
-//        while(cursor.moveToNext()){
-//            Log.i("aaa", cursor.getString(1));
-//            Log.i("aaa", userName);
-//            if(Objects.equals(cursor.getString(1), userName)){
-//
-//                return new Profile(
-//                            Integer.parseInt(cursor.getString(0)),
-//                            cursor.getString(1),
-//                            cursor.getString(2),
-//                            cursor.getString(3),
-//                            cursor.getString(4),
-//                            Integer.parseInt(cursor.getString(5)),
-//                            cursor.getString(6),
-//                            cursor.getString(7),
-//                            cursor.getString(8),
-//                            cursor.getString(9),
-//                            cursor.getBlob(10),
-//                            cursor.getString(11),
-//                            cursor.getString(12)
-//                );
-//            }
-//            else{
-//                cursor.moveToNext();
-//            }
-//        }
-//        return null;
     }
 
     public void newProfile(Profile profile) {
@@ -312,7 +279,57 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         return profilesList;
     }
 
-    public void resetProfilesSeen(){
+    //Взаимный архив
 
+    public void newArchiveMutual(ArchiveMutual archiveMutual){
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(ArchiveMutualUtil.KEY_OWNER_NAME, archiveMutual.getOwnerName());
+        contentValues.put(ArchiveMutualUtil.KEY_MUTUAL_NAMES, archiveMutual.getMutualNames());
+
+        db.insert(ArchiveMutualUtil.TABLE_NAME, null, contentValues);
+        db.close();
+    }
+
+    public ArchiveMutual getArchiveMutualUtil(String userName){
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.query(ArchiveMutualUtil.TABLE_NAME,new String[] {
+                    ArchiveMutualUtil.KEY_ID,
+                    ArchiveMutualUtil.KEY_OWNER_NAME,
+                    ArchiveMutualUtil.KEY_MUTUAL_NAMES,
+                },
+                ArchiveMutualUtil.KEY_OWNER_NAME + "=?", new String[]{userName},
+                null,
+                null,
+                null,
+                null);
+
+        if(cursor != null){
+            try {
+                cursor.moveToFirst();
+
+                return new ArchiveMutual(
+                        Integer.parseInt(cursor.getString(0)),
+                        cursor.getString(1),
+                        cursor.getString(2)
+                );
+
+            } catch (Exception e) {
+                return null;
+            }
+        }
+
+        return null;
+    }
+
+    public int updateArchive(ArchiveMutual archiveMutual){
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+
+        contentValues.put(ArchiveMutualUtil.KEY_ID, archiveMutual.getId());
+        contentValues.put(ArchiveMutualUtil.KEY_OWNER_NAME, archiveMutual.getOwnerName());
+        contentValues.put(ArchiveMutualUtil.KEY_MUTUAL_NAMES, archiveMutual.getMutualNames());
+
+        return db.update(ArchiveMutualUtil.TABLE_NAME,contentValues,ArchiveMutualUtil.KEY_OWNER_NAME + "=?", new String[]{archiveMutual.getOwnerName()});
     }
 }
