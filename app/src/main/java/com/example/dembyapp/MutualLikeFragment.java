@@ -48,8 +48,7 @@ public class MutualLikeFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_mutual_like, container, false);
 
         databaseHandler = new DatabaseHandler(requireContext());
@@ -66,43 +65,42 @@ public class MutualLikeFragment extends Fragment {
         userName = getUN();
         Profile userProfile = databaseHandler.getProfileByName(userName);
 
-        if (userProfile != null) {
+        if(userProfile == null){
+            isExist = false;
+            profile_description_field.setText("Сначало создайте анкету!");
+        }else{
             isExist = true;
 
             String[] likesBy = userProfile.getLikedBy().split("\\$");
 
             for (String user : likesBy) {
-                if (isMutual(user)) {
-                    profilesToShow.add(user);
+                if(!user.isEmpty()) {
+                    if (isMutual(user)) {
+                        profilesToShow.add(user);
+                    }
                 }
             }
 
-            if (!profilesToShow.isEmpty()) {
+            if (profilesToShow != null ){
                 showProfile(databaseHandler.getProfileByName(profilesToShow.get(numOfProf)));
                 numOfProf++;
             }
+        }
 
-        }
-        else{
-            isExist = false;
-        }
 
         like_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if(profilesToShow == null){return;}
 
-                if(!profilesToShow.isEmpty() && isExist ) {
+                if(isExist) {
                     numOfProf++;
+                    changeColor(like_button);
                     try {
-                        changeColor(like_button);
                         showProfile(databaseHandler.getProfileByName(profilesToShow.get(numOfProf)));
                     } catch (Exception ex) {
                         showWarn("К сожалению это все(");
                     }
-                }
-                else{
-                    showWarn("К сожалению это все(");
                 }
             }
         });
@@ -112,17 +110,14 @@ public class MutualLikeFragment extends Fragment {
             public void onClick(View v) {
                 if(profilesToShow == null){return;}
 
-                if(!profilesToShow.isEmpty() && isExist) {
+                if(isExist) {
                     numOfProf++;
+                    changeColor(dislike_button);
                     try {
-                        changeColor(dislike_button);
                         showProfile(databaseHandler.getProfileByName(profilesToShow.get(numOfProf)));
                     } catch (Exception ex) {
                         showWarn("К сожалению это все(");
                     }
-                }
-                else{
-                    showWarn("К сожалению это все(");
                 }
             }
         });
@@ -142,12 +137,12 @@ public class MutualLikeFragment extends Fragment {
 
     private boolean isMutual(String user){
         String[] tmp = databaseHandler.getProfileByName(user).getLikedBy().split("\\$");
+
         for (String us : tmp) {
-            try {
+            if(!us.isEmpty()) {
                 if (us.equals(userName)) {
                     return true;
                 }
-            } catch (Exception ignored) {
             }
         }
         return false;

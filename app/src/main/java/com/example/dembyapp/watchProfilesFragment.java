@@ -64,11 +64,18 @@ public class watchProfilesFragment extends Fragment {
 
         profilesToShow = databaseHandler.getProfiles(userName);
 
-        if (profilesToShow != null) {
-            isProfileExist = true;
-            showProfile(profilesToShow.get(numOfProf));
-        }else{
+        if (profilesToShow == null) {
             isProfileExist = false;
+            profile_description_field.setText("Для начала пользования приложением создайте анкету:)");
+        }
+
+        else if(numOfProf >= profilesToShow.size()) {
+            isProfileExist = false;
+            profile_description_field.setText("Анкет больше нет(");
+        }
+        else{
+            isProfileExist = true;
+            nextProfile();
         }
 
 
@@ -76,13 +83,15 @@ public class watchProfilesFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 if(isProfileExist) {
+
+                    String likesTmp = profilesToShow.get(numOfProf).getLikedBy();
+                    likesTmp += userName + "$";
+                    databaseHandler.getProfileByName(userName).setLikedBy(likesTmp);
+
                     numOfProf++;
-                    try {
-                        changeColor(like_button);
-                        showProfile(profilesToShow.get(numOfProf));
-                    } catch (Exception ex) {
-                        showWarn("К сожалению это все(");
-                    }
+
+                    changeColor(dislike_button);
+                    nextProfile();
                 }
             }
         });
@@ -91,13 +100,15 @@ public class watchProfilesFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 if(isProfileExist) {
+
+                    String seenTmp = profilesToShow.get(numOfProf).getSeenBy();
+                    seenTmp += userName + "$";
+                    databaseHandler.getProfileByName(userName).setLikedBy(seenTmp);
+
                     numOfProf++;
-                    try {
-                        changeColor(dislike_button);
-                        showProfile(profilesToShow.get(numOfProf));
-                    } catch (Exception ex) {
-                        showWarn("К сожалению это все(");
-                    }
+
+                    changeColor(dislike_button);
+                    nextProfile();
                 }
             }
         });
@@ -126,7 +137,46 @@ public class watchProfilesFragment extends Fragment {
         });
     }
 
+    public void nextProfile(){
+        if(numOfProf < profilesToShow.size()) {
+            showWarn("К сожалению это все(");
+            profile_description_field.setText("К сожалению пока что нет анкет(");
+            return;
+        }
+
+        while(isBeen(profilesToShow.get(numOfProf))){
+
+            numOfProf++;
+
+            if(numOfProf < profilesToShow.size()){
+                showWarn("К сожалению это все(");
+                break;
+            }
+        }
+
+        showProfile(profilesToShow.get(numOfProf));
+    }
+
+    public boolean isBeen(Profile profileToShow){
+        String[] seenProfiles = profileToShow.getSeenBy().split("\\$");
+        for(String byWhom : seenProfiles){
+            if(byWhom.equals(userName)){
+                return true;
+            }
+        }
+
+        String[] likedProfiles = profileToShow.getLikedBy().split("\\$");
+        for(String byWhom : likedProfiles){
+            if(byWhom.equals(userName)){
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     public void showProfile(Profile profileToShow){
+
         your_name_field.setText(profileToShow.getRealName());
         your_age_field.setText(String.valueOf(profileToShow.getAge()));
         your_city_field.setText(profileToShow.getCity());
@@ -134,10 +184,6 @@ public class watchProfilesFragment extends Fragment {
 
         Bitmap bitmap = BitmapFactory.decodeByteArray(profileToShow.getImage(), 0, profileToShow.getImage().length);
         profile_image.setImageBitmap(bitmap);
-    }
-
-    public void clickLike(View v){
-
     }
 
     public String getUN(){

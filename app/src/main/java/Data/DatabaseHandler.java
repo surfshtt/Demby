@@ -261,11 +261,12 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         Profile tmpProf = getProfileByName(userName);
 
         if (tmpProf == null) {
-            return null; // Возвращаем пустой список, если профиль не найден
+            return null;
         }
 
-        String selectAllNotes = "SELECT * FROM " + ProfilesUtil.TABLE_NAME;
-        Cursor cursor = db.rawQuery(selectAllNotes, null);
+        String selectAllNotes = "SELECT * FROM " + ProfilesUtil.TABLE_NAME +
+                " WHERE " + ProfilesUtil.KEY_OWNER_NAME + " != ?";
+        Cursor cursor = db.rawQuery(selectAllNotes, new String[]{userName});
 
         if (cursor.moveToFirst()) {
             do {
