@@ -1,7 +1,9 @@
 package com.example.dembyapp;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -32,10 +34,11 @@ public class MutualLikeFragment extends Fragment {
 
     private String userName;
     private DatabaseHandler databaseHandler;
-    private List<String> profilesToShow;
-    private ImageView profile_image, like_button, dislike_button;
+    private static List<String> profilesToShow;
+    private ImageView profile_image, inst_button, tg_button;
     private static int numOfProf = 0;
     private static boolean isExist = false;
+    String urlTg,urlInst;
     private TextView your_name_field, your_age_field, your_city_field, profile_description_field;
 
     public MutualLikeFragment() {
@@ -53,8 +56,8 @@ public class MutualLikeFragment extends Fragment {
 
         databaseHandler = new DatabaseHandler(requireContext());
 
-        like_button = view.findViewById(R.id.like_button);
-        dislike_button = view.findViewById(R.id.dislike_button);
+        inst_button = view.findViewById(R.id.inst_button);
+        tg_button = view.findViewById(R.id.tg_button);
 
         your_name_field = view.findViewById(R.id.your_name_field);
         your_age_field = view.findViewById(R.id.your_age_field);
@@ -67,58 +70,40 @@ public class MutualLikeFragment extends Fragment {
 
         if(userProfile == null){
             isExist = false;
-            profile_description_field.setText("Сначало создайте анкету!");
+            profile_description_field.setText("Сначала создайте анкету!");
         }else{
             isExist = true;
 
+            List<String> profilesToShow = new ArrayList<>();
             String[] likesBy = userProfile.getLikedBy().split("\\$");
 
             for (String user : likesBy) {
-                if(!user.isEmpty()) {
-                    if (isMutual(user)) {
-                        profilesToShow.add(user);
-                    }
+                Log.d("Mutual", user);
+                if (isMutual(user)) {
+                    profilesToShow.add(user);
                 }
             }
 
-            if (profilesToShow != null ){
-                showProfile(databaseHandler.getProfileByName(profilesToShow.get(numOfProf)));
-                numOfProf++;
-            }
+            showProfile(databaseHandler.getProfileByName(profilesToShow.get(numOfProf)));
+            //numOfProf++;
         }
 
-
-        like_button.setOnClickListener(new View.OnClickListener() {
+        inst_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(profilesToShow == null){return;}
-
-                if(isExist) {
-                    numOfProf++;
-                    changeColor(like_button);
-                    try {
-                        showProfile(databaseHandler.getProfileByName(profilesToShow.get(numOfProf)));
-                    } catch (Exception ex) {
-                        showWarn("К сожалению это все(");
-                    }
-                }
+                Intent intent = new Intent(Intent.ACTION_VIEW);
+                intent.setData(Uri.parse(urlInst));
+                startActivity(intent);
             }
         });
 
-        dislike_button.setOnClickListener(new View.OnClickListener() {
+        tg_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(profilesToShow == null){return;}
 
-                if(isExist) {
-                    numOfProf++;
-                    changeColor(dislike_button);
-                    try {
-                        showProfile(databaseHandler.getProfileByName(profilesToShow.get(numOfProf)));
-                    } catch (Exception ex) {
-                        showWarn("К сожалению это все(");
-                    }
-                }
+                Intent intent = new Intent(Intent.ACTION_VIEW);
+                intent.setData(Uri.parse(urlTg));
+                startActivity(intent);
             }
         });
 
@@ -133,16 +118,17 @@ public class MutualLikeFragment extends Fragment {
 
         Bitmap bitmap = BitmapFactory.decodeByteArray(profileToShow.getImage(), 0, profileToShow.getImage().length);
         profile_image.setImageBitmap(bitmap);
+
+        urlInst = "https://instagram.com/" + profileToShow.getInstagram();
+        urlTg = "https://t.me/" + profileToShow.getTelegram();
     }
 
     private boolean isMutual(String user){
         String[] tmp = databaseHandler.getProfileByName(user).getLikedBy().split("\\$");
 
         for (String us : tmp) {
-            if(!us.isEmpty()) {
-                if (us.equals(userName)) {
-                    return true;
-                }
+            if (us.equals(userName)) {
+                return true;
             }
         }
         return false;

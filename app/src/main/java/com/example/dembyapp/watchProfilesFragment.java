@@ -64,14 +64,13 @@ public class watchProfilesFragment extends Fragment {
 
         profilesToShow = databaseHandler.getProfiles(userName);
 
-        if (profilesToShow == null) {
+        if(profilesToShow == null) {
             isProfileExist = false;
-            profile_description_field.setText("Для начала пользования приложением создайте анкету:)");
+            profile_description_field.setText("Пока что анкет нету(");
         }
-
-        else if(numOfProf >= profilesToShow.size()) {
+        else if (numOfProf >= profilesToShow.size()) {
             isProfileExist = false;
-            profile_description_field.setText("Анкет больше нет(");
+            profile_description_field.setText("Пока что анкет нету(");
         }
         else{
             isProfileExist = true;
@@ -82,16 +81,18 @@ public class watchProfilesFragment extends Fragment {
         like_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(isProfileExist) {
+                if(isProfileExist){
+                    if(numOfProf < profilesToShow.size()){
+                        Profile tmpProf = profilesToShow.get(numOfProf);
+                        String likedBy = tmpProf.getLikedBy() + userName + "$";
+                        tmpProf.setLikedBy(likedBy);
+                        databaseHandler.updateProfile(tmpProf);
 
-                    String likesTmp = profilesToShow.get(numOfProf).getLikedBy();
-                    likesTmp += userName + "$";
-                    databaseHandler.getProfileByName(userName).setLikedBy(likesTmp);
+                        numOfProf++;
 
-                    numOfProf++;
-
-                    changeColor(dislike_button);
-                    nextProfile();
+                        changeColor(like_button);
+                        nextProfile();
+                    }
                 }
             }
         });
@@ -100,15 +101,18 @@ public class watchProfilesFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 if(isProfileExist) {
+                    if (numOfProf < profilesToShow.size()) {
 
-                    String seenTmp = profilesToShow.get(numOfProf).getSeenBy();
-                    seenTmp += userName + "$";
-                    databaseHandler.getProfileByName(userName).setLikedBy(seenTmp);
+                        Profile tmpProf = profilesToShow.get(numOfProf);
+                        String seenTmp = tmpProf.getSeenBy() + userName + "$";
+                        tmpProf.setSeenBy(seenTmp);
+                        databaseHandler.updateProfile(tmpProf);
 
-                    numOfProf++;
+                        numOfProf++;
 
-                    changeColor(dislike_button);
-                    nextProfile();
+                        changeColor(dislike_button);
+                        nextProfile();
+                    }
                 }
             }
         });
@@ -138,9 +142,8 @@ public class watchProfilesFragment extends Fragment {
     }
 
     public void nextProfile(){
-        if(numOfProf < profilesToShow.size()) {
+        if(numOfProf >= profilesToShow.size()) {
             showWarn("К сожалению это все(");
-            profile_description_field.setText("К сожалению пока что нет анкет(");
             return;
         }
 
@@ -148,9 +151,9 @@ public class watchProfilesFragment extends Fragment {
 
             numOfProf++;
 
-            if(numOfProf < profilesToShow.size()){
+            if(numOfProf >= profilesToShow.size()){
                 showWarn("К сожалению это все(");
-                break;
+                return;
             }
         }
 

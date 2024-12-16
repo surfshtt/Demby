@@ -254,6 +254,26 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         db.close();
     }
 
+    public int updateProfile(Profile profile){
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+
+        contentValues.put(ProfilesUtil.KEY_OWNER_NAME, profile.getOwnerId());
+        contentValues.put(ProfilesUtil.KEY_REAL_NAME, profile.getRealName());
+        contentValues.put(ProfilesUtil.KEY_GENDER, profile.getGender());
+        contentValues.put(ProfilesUtil.KEY_GENDER_LOOKING, profile.getGender_looking());
+        contentValues.put(ProfilesUtil.KEY_AGE, profile.getAge());
+        contentValues.put(ProfilesUtil.KEY_CITY, profile.getCity());
+        contentValues.put(ProfilesUtil.KEY_DESCRIPTION, profile.getDescription());
+        contentValues.put(ProfilesUtil.KEY_SEEN_BY, profile.getSeenBy());
+        contentValues.put(ProfilesUtil.KEY_LIKED_BY, profile.getLikedBy());
+        contentValues.put(ProfilesUtil.KEY_IMAGE, profile.getImage());
+        contentValues.put(ProfilesUtil.KEY_INSTAGRAM, profile.getInstagram());
+        contentValues.put(ProfilesUtil.KEY_TELEGRAM, profile.getTelegram());
+
+        return db.update(ProfilesUtil.TABLE_NAME,contentValues,ProfilesUtil.KEY_OWNER_NAME + "=?", new String[]{profile.getOwnerId()});
+    }
+
     public List<Profile> getProfiles(String userName) {
         SQLiteDatabase db = this.getReadableDatabase();
         List<Profile> profilesList = new ArrayList<>();
