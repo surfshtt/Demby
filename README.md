@@ -7,7 +7,7 @@ Demby - is mobile dating app based on Android platform.
 - **Location-Based Services**: Find matches nearby to enhance your dating experience.
 
 ## Technology stack
-Android Studio, Java, SQLite, XML.
+Android Studio, Java, SQLite, XML, Gradle.
 
 ## Support
 For support or inquiries, please contact me at fk8ghtt@gmail.com
