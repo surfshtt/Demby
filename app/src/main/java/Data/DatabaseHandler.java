@@ -291,7 +291,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         db.close();
     }
 
-    public ArchiveMutual getArchiveMutualUtil(String userName){
+    public ArchiveMutual getArchiveMutual(String userName){
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.query(ArchiveMutualUtil.TABLE_NAME,new String[] {
                     ArchiveMutualUtil.KEY_ID,

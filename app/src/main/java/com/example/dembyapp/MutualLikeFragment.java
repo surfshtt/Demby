@@ -29,6 +29,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import Data.DatabaseHandler;
+import Model.ArchiveMutual;
 import Model.Profile;
 
 
@@ -69,6 +70,9 @@ public class MutualLikeFragment extends Fragment {
         profile_image = view.findViewById(R.id.profile_image);
         next_profile_button = view.findViewById(R.id.next_profile_button);
 
+        profilesToShow = new ArrayList<>();
+        numOfProf = 0;
+
         userName = getUN();
         Profile userProfile = databaseHandler.getProfileByName(userName);
 
@@ -78,17 +82,25 @@ public class MutualLikeFragment extends Fragment {
         }else{
             isExist = true;
 
-            List<String> profilesToShow = new ArrayList<>();
+            if(databaseHandler.getArchiveMutual(userName) == null) {
+                ArchiveMutual archiveMutual = new ArchiveMutual(userName, "");
+                databaseHandler.newArchiveMutual(archiveMutual);
+            }
+
             String[] likesBy = userProfile.getLikedBy().split("\\$");
 
             for (String user : likesBy) {
                 Log.d("Mutual", user);
                 if (isMutual(user)) {
-                    profilesToShow.add(user);
+                    if(!existInArchive(user)) {
+                        profilesToShow.add(user);
+                    }
                 }
             }
 
-            showProfile(databaseHandler.getProfileByName(profilesToShow.get(numOfProf)));
+            if(!profilesToShow.isEmpty()) {
+                showProfile(databaseHandler.getProfileByName(profilesToShow.get(numOfProf)));
+            }
         }
 
         inst_button.setOnClickListener(new View.OnClickListener() {
@@ -112,11 +124,17 @@ public class MutualLikeFragment extends Fragment {
         next_profile_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(!isExist){return;}
+
+                ArchiveMutual archiveMutual = databaseHandler.getArchiveMutual(userName);
+                String tmpStrArchive = archiveMutual.getMutualNames() + profilesToShow.get(numOfProf) + "$";
+                archiveMutual.setMutualNames(tmpStrArchive);
+
+                databaseHandler.updateArchive(archiveMutual);
+
                 numOfProf++;
+
                 if(numOfProf < profilesToShow.size()){
-
-                    //TODO удаление аккауната из таблицы mutual
-
                     showProfile(databaseHandler.getProfileByName(profilesToShow.get(numOfProf)));
                 }
                 else{
@@ -145,7 +163,7 @@ public class MutualLikeFragment extends Fragment {
         Bitmap bitmap = BitmapFactory.decodeByteArray(profileToShow.getImage(), 0, profileToShow.getImage().length);
         profile_image.setImageBitmap(bitmap);
 
-        urlInst = "https://instagram.com/" + profileToShow.getInstagram();
+        urlInst = "https://www.instagram.com/" + profileToShow.getInstagram();
         urlTg = "https://t.me/" + profileToShow.getTelegram();
     }
 
@@ -154,6 +172,17 @@ public class MutualLikeFragment extends Fragment {
 
         for (String us : tmp) {
             if (us.equals(userName)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private boolean existInArchive(String user){
+        String[] tmp = databaseHandler.getArchiveMutual(userName).getMutualNames().split("\\$");
+
+        for (String us : tmp) {
+            if (us.equals(user)) {
                 return true;
             }
         }

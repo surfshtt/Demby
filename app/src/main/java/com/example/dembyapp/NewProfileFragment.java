@@ -15,6 +15,8 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.provider.MediaStore;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -124,6 +126,24 @@ public class NewProfileFragment extends Fragment {
             }
         });
 
+        profile_age.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                String text = s.toString();
+                if (text.contains(".")) {
+                    s.replace(0, text.length(), text.replace(".", ""));
+                }
+            }
+        });
+
         return view;
     }
 
@@ -212,7 +232,10 @@ public class NewProfileFragment extends Fragment {
             return null;
         }
 
-        if(!profile_age.getText().toString().contains(" ") && !profile_age.getText().toString().isEmpty())
+        if(!profile_age.getText().toString().contains(" ")
+                && !profile_age.getText().toString().isEmpty()
+                && Integer.parseInt(profile_age.getText().toString()) >= 18
+                && Integer.parseInt(profile_age.getText().toString()) <= 99)
             profile.setAge(Integer.parseInt(profile_age.getText().toString()));
         else
             return null;
