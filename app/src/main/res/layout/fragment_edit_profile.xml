@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".NewProfileFragment"
+    android:background="@color/blue_bg">
+
+    <RelativeLayout
+        android:id="@+id/up_bg"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/rounded_corners_all_db">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="Ваша анкета:"
+            android:textColor="@color/white"
+            android:fontFamily="@font/montserrat_extrabold"
+            android:textSize="26sp"
+            android:gravity="center"
+            />
+
+    </RelativeLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_below="@id/up_bg"
+        android:layout_height="500dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginHorizontal="20dp"
+        android:background="@drawable/rounded_corners_all_db">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="22dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="@string/what_is_ur_name"
+                android:textColor="@color/white"
+                android:fontFamily="@font/montserrat_bold"
+                android:textSize="20sp"
+                android:gravity="center"/>
+
+            <EditText
+                android:id="@+id/profile_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginHorizontal="25dp"
+                android:padding="10dp"
+                android:inputType="text"
+                android:background="@drawable/rounded_corners_all_white"
+                android:gravity="center"
+                android:fontFamily="@font/montserrat_medium"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="18dp"
+                android:text="@string/how_old_are_u"
+                android:textColor="@color/white"
+                android:fontFamily="@font/montserrat_bold"
+                android:textSize="20sp"
+                android:gravity="center"/>
+
+            <EditText
+                android:id="@+id/profile_age"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginHorizontal="100dp"
+                android:padding="10dp"
+                android:background="@drawable/rounded_corners_all_white"
+                android:inputType="numberDecimal"
+                android:fontFamily="@font/montserrat_medium"
+                android:gravity="center"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="18dp"
+                android:text="@string/ur_town"
+                android:textColor="@color/white"
+                android:fontFamily="@font/montserrat_bold"
+                android:textSize="20sp"
+                android:gravity="center"/>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/rounded_corners_all_white"
+                android:layout_marginHorizontal="28dp"
+                android:layout_marginTop="8dp">
+
+                <AutoCompleteTextView
+                    android:id="@+id/town_field"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginHorizontal="10dp"
+                    android:fontFamily="@font/montserrat_medium"
+                    android:textSize="15sp"
+                    android:inputType="text"
+                    android:gravity="center"
+                    />
+            </RelativeLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="18dp"
+                android:text="@string/tell_about_u"
+                android:textColor="@color/white"
+                android:fontFamily="@font/montserrat_bold"
+                android:textSize="20sp"
+                android:gravity="center"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/tell_about_u_hint"
+                android:textColor="@color/white"
+                android:fontFamily="@font/montserrat_medium"
+                android:textSize="17sp"
+                android:gravity="center"/>
+
+            <EditText
+                android:id="@+id/profile_description"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:layout_marginTop="10dp"
+                android:padding="10dp"
+                android:background="@drawable/rounded_corners_all_white"
+                android:inputType="textMultiLine"
+                android:fontFamily="@font/montserrat_medium"
+                android:gravity="center_horizontal"/>
+
+            <ImageView
+                android:id="@+id/image_from_user"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="22dp"
+                android:layout_marginHorizontal="12dp"
+                />
+
+            <Button
+                android:id="@+id/upload_img_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:layout_gravity="center"
+                android:backgroundTint="@color/blue3"
+                android:text="@string/upload_photo"
+                android:textSize="18sp"
+                android:fontFamily="@font/montserrat_bold"
+                app:cornerRadius="15dp" />
+
+            <Button
+                android:id="@+id/save_profile"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="22dp"
+                android:layout_marginTop="12dp"
+                android:layout_gravity="center"
+                android:backgroundTint="@color/blue3"
+                android:text="@string/save_changes"
+                android:textSize="24sp"
+                android:fontFamily="@font/montserrat_extrabold"
+                app:cornerRadius="15dp" />
+
+        </LinearLayout>
+    </ScrollView>
+
+</RelativeLayout>

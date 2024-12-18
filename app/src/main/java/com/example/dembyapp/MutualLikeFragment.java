@@ -168,6 +168,10 @@ public class MutualLikeFragment extends Fragment {
     }
 
     private boolean isMutual(String user){
+        if(user == null){
+            return false;
+        }
+
         String[] tmp = databaseHandler.getProfileByName(user).getLikedBy().split("\\$");
 
         for (String us : tmp) {

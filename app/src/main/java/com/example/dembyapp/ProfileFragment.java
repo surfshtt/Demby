@@ -36,7 +36,7 @@ public class ProfileFragment extends Fragment {
     private static String userName;
     private TextView hi_text, your_name_field, your_age_field, your_city_field, profile_description_field;
     private ImageView profile_image;
-    Button delete_profile_button;
+    private Button delete_profile_button, edit_profile_button;
 
 
     public ProfileFragment() {
@@ -61,6 +61,7 @@ public class ProfileFragment extends Fragment {
         profile_description_field = view.findViewById(R.id.profile_description_field);
         profile_image = view.findViewById(R.id.profile_image);
         delete_profile_button = view.findViewById(R.id.delete_profile_button);
+        edit_profile_button = view.findViewById(R.id.edit_profile_button);
 
         userName = getUN();
 
@@ -88,6 +89,17 @@ public class ProfileFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 showDeleteConfirmationDialog();
+            }
+        });
+
+        edit_profile_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Fragment fr = new EditProfileFragment();
+                FragmentTransaction transaction = getFragmentManager().beginTransaction();
+                transaction.replace(R.id.frame_field, fr);
+                transaction.addToBackStack(null);
+                transaction.commit();
             }
         });
 
