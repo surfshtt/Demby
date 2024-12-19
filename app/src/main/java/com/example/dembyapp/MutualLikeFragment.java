@@ -70,6 +70,9 @@ public class MutualLikeFragment extends Fragment {
         profile_image = view.findViewById(R.id.profile_image);
         next_profile_button = view.findViewById(R.id.next_profile_button);
 
+        urlInst = "https://instagram.com/";
+        urlTg = "https://t.me/";
+
         profilesToShow = new ArrayList<>();
         numOfProf = 0;
 
@@ -125,6 +128,7 @@ public class MutualLikeFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 if(!isExist){return;}
+                if(profilesToShow.size() == numOfProf) {return;}
 
                 ArchiveMutual archiveMutual = databaseHandler.getArchiveMutual(userName);
                 String tmpStrArchive = archiveMutual.getMutualNames() + profilesToShow.get(numOfProf) + "$";
@@ -172,14 +176,19 @@ public class MutualLikeFragment extends Fragment {
             return false;
         }
 
-        String[] tmp = databaseHandler.getProfileByName(user).getLikedBy().split("\\$");
+        try {
+            String[] tmp = databaseHandler.getProfileByName(user).getLikedBy().split("\\$");
 
-        for (String us : tmp) {
-            if (us.equals(userName)) {
-                return true;
+            for (String us : tmp) {
+                if (us.equals(userName)) {
+                    return true;
+                }
             }
+            return false;
+        }catch (Exception ex){
+            return false;
         }
-        return false;
+
     }
 
     private boolean existInArchive(String user){
