@@ -276,6 +276,23 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         }
 
         cursor.close();
+
+        if (!profilesList.isEmpty()) {
+            String genderToFind = getProfileByName(userName).getGender_looking();
+            String usersGender = getProfileByName(userName).getGender();
+            List<Profile> filteredList = new ArrayList<>();
+
+            for (Profile prof : profilesList) {
+                if (prof.getGender().equals(genderToFind)) {
+                    if(prof.getGender_looking().equals(usersGender)) {
+                        filteredList.add(prof);
+                    }
+                }
+            }
+
+            profilesList = filteredList;
+        }
+
         return profilesList;
     }
 

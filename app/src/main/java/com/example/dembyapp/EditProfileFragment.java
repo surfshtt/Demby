@@ -1,14 +1,19 @@
 package com.example.dembyapp;
 
+import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -33,8 +38,11 @@ import Model.Profile;
 
 public class EditProfileFragment extends Fragment {
 
+    private static final int REQUEST_CODE = 1;
+    private static final int PICK_IMAGE_REQUEST = 1;
+
     private ImageView image_from_user;
-    Button save_profile;
+    private Button save_profile, upload_img_button;
     private EditText profile_name, profile_age, profile_tg, profile_inst, profile_description;
     private String userName;
     private Profile usersProfile;
@@ -57,6 +65,7 @@ public class EditProfileFragment extends Fragment {
         profile_description = view.findViewById(R.id.profile_description);
         image_from_user = view.findViewById(R.id.image_from_user);
         save_profile = view.findViewById(R.id.save_profile);
+        upload_img_button = view.findViewById(R.id.upload_img_button);
 
         databaseHandler = new DatabaseHandler(requireContext());
 
@@ -70,6 +79,13 @@ public class EditProfileFragment extends Fragment {
 
         Bitmap bitmap = BitmapFactory.decodeByteArray(usersProfile.getImage(), 0, usersProfile.getImage().length);
         image_from_user.setImageBitmap(bitmap);
+
+        upload_img_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openImagePicker();
+            }
+        });
 
         save_profile.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -95,7 +111,40 @@ public class EditProfileFragment extends Fragment {
             }
         });
 
+
         return view;
+    }
+
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == REQUEST_CODE) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                // Разрешение получено, можно продолжить
+            } else {
+                requireActivity().finish();
+            }
+        }
+    }
+
+    // Метод для открытия выбора изображения
+    private void openImagePicker() {
+        Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        startActivityForResult(intent, PICK_IMAGE_REQUEST);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == PICK_IMAGE_REQUEST && resultCode == getActivity().RESULT_OK && data != null) {
+            Uri imageUri = data.getData();
+
+            showWarn("Изображение загружено!");
+            Log.i("Profile", "Изображение загружено успешно");
+
+            image_from_user.setImageURI(imageUri);
+        }
     }
 
     public String getUN(){
